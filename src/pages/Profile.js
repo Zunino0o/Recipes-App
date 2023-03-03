@@ -3,6 +3,10 @@ import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 
 function Profile() {
+  // useEffect(() => {
+  const { email } = localStorage.getItem('user');
+  // });
+
   const history = useHistory();
   const handleRedirect = ({ target }) => {
     switch (target.name) {
@@ -11,7 +15,9 @@ function Profile() {
     case 'favorite':
       return history.push('/favorite-recipes');
     case 'logout':
-      return history.push('/');
+      history.push('/');
+      localStorage.setItem('user', { email: '' });
+      break;
     default:
       break;
     }
@@ -21,7 +27,7 @@ function Profile() {
     <div>
       <img src={ profileIcon } alt="profile icon" />
       <h1>PROFILE</h1>
-      <span data-testid="profile-email">E-MAIL</span>
+      <span data-testid="profile-email">{email}</span>
       <br />
       <button
         type="button"
