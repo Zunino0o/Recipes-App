@@ -1,27 +1,49 @@
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import profileIcon from '../images/profileIcon.svg';
+
 function Profile() {
+  const history = useHistory();
+  const handleRedirect = ({ target }) => {
+    switch (target.name) {
+    case 'done':
+      return history.push('/done-recipes');
+    case 'favorite':
+      return history.push('/favorite-recipes');
+    case 'logout':
+      return history.push('/');
+    default:
+      break;
+    }
+  };
+
   return (
     <div>
-      <h1>Profile</h1>
+      <img src={ profileIcon } alt="profile icon" />
+      <h1>PROFILE</h1>
       <span data-testid="profile-email">E-MAIL</span>
       <br />
       <button
         type="button"
         data-testid="profile-done-btn"
-        onClick={ () => console.log('Done Recipes') }
+        name="done"
+        onClick={ handleRedirect }
       >
         Done Recipes
       </button>
       <button
         type="button"
         data-testid="profile-favorite-btn"
-        onClick={ () => console.log('Favorites Recipes') }
+        name="favorite"
+        onClick={ handleRedirect }
       >
-        Favorites Recipes
+        Favorite Recipes
       </button>
       <button
         type="button"
         data-testid="profile-logout-btn"
-        onClick={ () => console.log('Logout') }
+        name="logout"
+        onClick={ handleRedirect }
       >
         Logout
       </button>
