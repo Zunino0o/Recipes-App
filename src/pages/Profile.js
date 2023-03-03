@@ -1,11 +1,12 @@
+
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 
+import Header from '../components/Header';
+
 function Profile() {
-  // useEffect(() => {
   const { email } = localStorage.getItem('user');
-  // });
 
   const history = useHistory();
   const handleRedirect = ({ target }) => {
@@ -24,37 +25,39 @@ function Profile() {
   };
 
   return (
-    <div>
-      <img src={ profileIcon } alt="profile icon" />
-      <h1>PROFILE</h1>
-      <span data-testid="profile-email">{email}</span>
-      <br />
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        name="done"
-        onClick={ handleRedirect }
-      >
-        Done Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        name="favorite"
-        onClick={ handleRedirect }
-      >
-        Favorite Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        name="logout"
-        onClick={ handleRedirect }
-      >
-        Logout
-      </button>
-    </div>
+    <section>
+      <Header pageTitle="Profile" />
+      <div>
+        <img src={ profileIcon } alt="profile icon" />
+        <h1>PROFILE</h1>
+        <span data-testid="profile-email">{email}</span>
+        <br />
+        <button
+          type="button"
+          data-testid="profile-done-btn"
+          name="done"
+          onClick={ handleRedirect }
+        >
+          Done Recipes
+        </button>
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          name="favorite"
+          onClick={ handleRedirect }
+        >
+          Favorite Recipes
+        </button>
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+          name="logout"
+          onClick={ handleRedirect }
+        >
+          Logout
+        </button>
+      </div>
+    </section>
   );
 }
-
 export default Profile;

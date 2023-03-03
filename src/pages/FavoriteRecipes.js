@@ -1,9 +1,12 @@
+import Header from '../components/Header';
+
 function FavoriteRecipes() {
   return (
-    <div>
-      <h1>Favorite Recipes</h1>
-    </div>
+    <section>
+      <Header pageTitle="FavoriteRecipes" />
+
+    </section>
   );
 }
-
 export default FavoriteRecipes;
+
