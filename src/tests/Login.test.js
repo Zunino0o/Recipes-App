@@ -4,7 +4,7 @@ import React from 'react';
 import App from '../App';
 import renderWithRouter from './RenderWithRouter';
 
-describe('Testa os elementos da tela de login', () => {
+describe('Testa os elementos da tela de Login', () => {
   it('Testa as funcionalidades da tela de login', () => {
     renderWithRouter(<App />);
     const email = screen.getByTestId('email-input');
