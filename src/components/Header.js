@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import ProfileIcon from '../images/profileIcon.svg';
 import SearchIcon from '../images/searchIcon.svg';
@@ -8,6 +8,12 @@ function Header() {
   const history = useHistory();
   const Path = history.location.pathname.substring(1);
   const ShowSearch = Path === 'meals' || Path === 'drinks';
+
+  const handleProfileClick = useCallback(() => {
+    setTitle('Profile');
+    history.push('/profile');
+  }, [history]);
+
   useEffect(() => {
     const teste = Path.split('-');
     if (teste[1]) {
@@ -23,7 +29,14 @@ function Header() {
 
   return (
     <header>
-      <img data-testid="profile-top-btn" src={ ProfileIcon } alt="" />
+      <button onClick={ handleProfileClick }>
+        <img
+          data-testid="profile-top-btn"
+          src={ ProfileIcon }
+          alt=""
+
+        />
+      </button>
       {
         ShowSearch
         && (<img data-testid="search-top-btn" src={ SearchIcon } alt="" />)
