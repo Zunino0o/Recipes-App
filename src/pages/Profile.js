@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
@@ -6,7 +5,8 @@ import profileIcon from '../images/profileIcon.svg';
 import Header from '../components/Header';
 
 function Profile() {
-  const { email } = localStorage.getItem('user');
+  const { email } = JSON.parse(localStorage.getItem('user'));
+  console.log(email);
 
   const history = useHistory();
   const handleRedirect = ({ target }) => {
@@ -17,7 +17,7 @@ function Profile() {
       return history.push('/favorite-recipes');
     case 'logout':
       history.push('/');
-      localStorage.setItem('user', { email: '' });
+      localStorage.setItem('user', JSON.stringify({ email: '' }));
       break;
     default:
       break;
