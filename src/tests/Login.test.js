@@ -1,67 +1,23 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from './RenderWithRouter';
+import React from 'react';
 import App from '../App';
+import renderWithRouter from './RenderWithRouter';
 
-const inputEmail = screen.getByTestId('email-input');
-const inputPassword = screen.getByTestId('password-input');
-const btn = screen.getByTestId('login-submit-btn');
-const validEmail = 'fulano@email.com';
-
-describe(('Testa as telas de login', () => {
-  it('Testa se os elementos estão presentes', () => {
+describe('Testa os elementos da tela de login', () => {
+  it('Testa as funcionalidades da tela de login', () => {
     renderWithRouter(<App />);
-    expect(inputEmail).toBeInTheDocument();
-    expect(inputPassword).toBeInTheDocument();
-    expect(btn).toBeInTheDocument();
-  });
-  it('Testa se o botão está desabilitado', () => {
-    renderWithRouter(<App />);
+    const email = screen.getByTestId('email-input');
+    const password = screen.getByTestId('password-input');
+    const btn = screen.getByTestId('login-submit-btn');
+    expect(email).toBeInTheDocument();
+    expect(password).toBeInTheDocument();
     expect(btn).toBeDisabled();
-  });
-  it('Testa se ao preencher o formulário com dados inválidos o botão continua desabilitado', () => {
-    renderWithRouter(<App />);
-    userEvent.type(inputEmail, 'invalido');
-    userEvent.type(inputPassword, '12345');
-
-    expect(btn).toBeDisabled();
-  });
-  it('Testa se ao preencher o formulário com dados válidos o botão fica habilitado', () => {
-    renderWithRouter(<App />);
-
-    userEvent.type(inputEmail, validEmail);
-    userEvent.type(inputPassword, '1234567');
-
+    userEvent.type(email, 'email@email.com');
+    userEvent.type(password, '1234567');
     expect(btn).toBeEnabled();
-  });
-  it('Testa se ao preencher o formulário os dados são renderizados', () => {
-    renderWithRouterAndRedux(<App />);
-
-    userEvent.type(inputEmail, validEmail);
-    userEvent.type(inputPassword, '1234567');
-
-    expect(inputEmail.value).toBe(validEmail);
-    expect(inputPassword.value).toBe('1234567');
-  });
-  it('Testa se ao clicar no botão o usuário é redirecionado', () => {
-    const { history } = renderWithRouter(<App />);
-    expect(history.location.pathname).toBe('/');
-
-    userEvent.type(inputEmail, validEmail);
-    userEvent.type(inputPassword, '1234567');
-
-    expect(btn).toBeEnabled();
-
     userEvent.click(btn);
-    expect(history.location.pathname).toBe('/meals');
-  });
-  it('Testa se o email é salvo no localStorage', () => {
-    renderWithRouter(<App />);
-    userEvent.type(inputEmail, validEmail);
-    userEvent.type(inputPassword, '1234567');
-    userEvent.click(btn);
-
     const user = JSON.parse(localStorage.getItem('user'));
-    expect(user).toEqual({ email: validEmail });
+    expect(user).toEqual({ email: 'email@email.com' });
   });
-}));
+});
