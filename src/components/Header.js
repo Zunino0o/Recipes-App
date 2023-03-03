@@ -5,6 +5,7 @@ import SearchIcon from '../images/searchIcon.svg';
 
 function Header() {
   const [title, setTitle] = useState();
+  const [showSearch, setShowSearch] = useState(false);
   const history = useHistory();
   const Path = history.location.pathname.substring(1);
   const ShowSearch = Path === 'meals' || Path === 'drinks';
@@ -13,6 +14,10 @@ function Header() {
     setTitle('Profile');
     history.push('/profile');
   }, [history]);
+
+  const handleSearchClick = useCallback(() => {
+    setShowSearch(!showSearch);
+  }, [showSearch]);
 
   useEffect(() => {
     const teste = Path.split('-');
@@ -34,14 +39,18 @@ function Header() {
           data-testid="profile-top-btn"
           src={ ProfileIcon }
           alt=""
-
         />
       </button>
-      {
-        ShowSearch
-        && (<img data-testid="search-top-btn" src={ SearchIcon } alt="" />)
-      }
+      <button onClick={ handleSearchClick }>
+        {' '}
 
+        {ShowSearch && (
+          <img data-testid="search-top-btn" src={ SearchIcon } alt="" />
+        )}
+      </button>
+      {showSearch && (
+        <input data-testid="search-input" type="text" placeholder="Search" />
+      )}
       <p data-testid="page-title">
         {title}
       </p>
