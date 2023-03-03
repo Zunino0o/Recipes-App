@@ -14,7 +14,7 @@ function App() {
 
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={ <div /> } />
+          {/* <Route exact path="/" component={ <div /> } /> */}
           <Route exact path="/meals" component={ Meals } />
           <Route exact path="/drinks" component={ Drinks } />
           <Route exact path="/meals/:id-da-receita" component={ <div /> } />
