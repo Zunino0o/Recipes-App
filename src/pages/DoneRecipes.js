@@ -1,9 +1,11 @@
+import Header from '../components/Header';
+
 function DoneRecipes() {
   return (
-    <div>
-      <h1>Done Recipes</h1>
-    </div>
+    <section>
+      <Header pageTitle="Done Recipes" />
+
+    </section>
   );
 }
-
 export default DoneRecipes;

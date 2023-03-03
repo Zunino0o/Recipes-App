@@ -1,9 +1,11 @@
+import Header from '../components/Header';
+
 function Drinks() {
   return (
-    <div>
-      <h1>Drinks</h1>
-    </div>
+    <section>
+      <Header pageTitle="Drinks" />
+
+    </section>
   );
 }
-
 export default Drinks;

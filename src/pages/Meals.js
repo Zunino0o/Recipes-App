@@ -1,9 +1,11 @@
+import Header from '../components/Header';
+
 function Meals() {
   return (
-    <div>
-      <h1>Meals</h1>
-    </div>
+    <section>
+      <Header pageTitle="teste" />
+
+    </section>
   );
 }
-
 export default Meals;
