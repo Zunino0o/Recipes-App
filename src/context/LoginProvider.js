@@ -6,6 +6,11 @@ function LoginProvider({ children }) {
   const [email, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const [filter, setFilter] = useState();
+
+  const handleFilter = ({ target }) => {
+    setFilter(target.value);
+  };
 
   const context = useMemo(() => ({
     email,
@@ -14,6 +19,9 @@ function LoginProvider({ children }) {
     setUserPassword,
     btnDisabled,
     setBtnDisabled,
+    filter,
+    setFilter,
+    handleFilter,
   }), [email, userPassword, btnDisabled]);
 
   return (
