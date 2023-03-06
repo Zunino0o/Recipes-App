@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
-
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Profile() {
   const { email } = JSON.parse(localStorage.getItem('user'));
@@ -56,7 +56,9 @@ function Profile() {
         >
           Logout
         </button>
+        
       </div>
+      <Footer />
     </section>
   );
 }
