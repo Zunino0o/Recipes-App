@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import LoginContext from './LoginContext';
 
 function LoginProvider({ children }) {
   const [email, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const [filter, setFilter] = useState();
-
-  const handleFilter = ({ target }) => {
-    setFilter(target.value);
-  };
+  const [filter, setFilter] = useState('ingredients');
+  const [searchInput, setSearchInput] = useState('');
 
   const context = useMemo(() => ({
     email,
@@ -19,13 +16,24 @@ function LoginProvider({ children }) {
     setUserPassword,
     btnDisabled,
     setBtnDisabled,
+    searchInput,
+    setSearchInput,
     filter,
     setFilter,
-    handleFilter,
-  }), [email, userPassword, btnDisabled]);
+  }), [
+    email,
+    userPassword,
+    btnDisabled,
+    filter,
+    searchInput,
+  ]);
 
   return (
-    <LoginContext.Provider value={ context }>{children}</LoginContext.Provider>
+    <LoginContext.Provider
+      value={ context }
+    >
+      {children}
+    </LoginContext.Provider>
   );
 }
 

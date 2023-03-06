@@ -9,7 +9,7 @@ import MealsRecipesProgress from './pages/MealsRecipesProgress';
 import DrinksRecipesProgress from './pages/DrinksRecipesProgress';
 import MealsRecipes from './pages/MealsRecipes';
 import DrinksRecipes from './pages/DrinksRecipes';
-// import Login from './pages/Login';
+import Login from './pages/Login';
 
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,7 +18,7 @@ function App() {
     <div className="meals">
       <BrowserRouter>
         <Switch>
-          {/* <Route exact path="/" component={ Login } /> */}
+          <Route exact path="/" component={ Login } />
           <Route exact path="/meals" component={ Meals } />
           <Route exact path="/drinks" component={ Drinks } />
           <Route exact path="/meals/:id-da-receita" component={ MealsRecipes } />
