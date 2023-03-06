@@ -43,6 +43,7 @@ function Login() {
         <input
           type="email"
           data-testid="email-input"
+          placeholder="email"
           name="email"
           id="email"
           onChange={ (e) => { handleChangeEmail(e.target.value); } }
@@ -52,6 +53,7 @@ function Login() {
         <input
           type="password"
           data-testid="password-input"
+          placeholder="password"
           name="password"
           id="password"
           onChange={ (e) => { handleChangePassword(e.target.value); } }
