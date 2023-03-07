@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function FavoriteCard({ recipe, index, handler }) {
   const { id, type, nationality, category, alcoholicOrNot, name, image } = recipe;
-  console.log(recipe, index);
+  // console.log(recipe, index);
 
-  const handleShare = () => {};
+  const [alert, setAlert] = useState('');
+
+  const handleShare = () => {
+    const clipboardText = `http://localhost:3000/${type}/${id}`;
+    console.log(navigator.clipboard.readText);
+    navigator.clipboard.writeText('hi');
+    console.log(navigator.clipboard.readText);
+    navigator.clipboard.writeText(clipboardText);
+    console.log(navigator.clipboard.readText);
+    // console.log('Link copied!');
+    setAlert('Link copied!');
+    setTimeout(() => {
+      setAlert('');
+    }, 3000);
+  };
 
   const handleFav = () => {
     const localStorageData = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -32,7 +46,9 @@ function FavoriteCard({ recipe, index, handler }) {
             : `${nationality} - ${category}`
         }
       </p>
-
+      <br />
+      { alert }
+      <br />
       <button
         id="share-btn"
         type="button"
