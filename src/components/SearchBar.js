@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import LoginContext from '../context/LoginContext';
 import {
   fetchMealsByIngredient,
-  // fetchDrinksByIngredient,
+  fetchDrinksByIngredient,
   fetchMealsByName,
-  // fetchDrinksByName,
+  fetchDrinksByName,
   fetchMealsByLetter,
-  // fetchDrinksByLetter,
+  fetchDrinksByLetter,
 } from '../services/fetchAPI';
 
 function SearchBar() {
+  const history = useHistory();
   const {
     filter,
     setFilter,
@@ -25,7 +27,7 @@ function SearchBar() {
     setSearchInput(target.value);
   };
 
-  const handleSearch = () => {
+  const handleMeals = () => {
     switch (filter) {
     case 'ingredients':
       fetchMealsByIngredient(searchInput);
@@ -34,32 +36,32 @@ function SearchBar() {
       fetchMealsByName(searchInput);
       break;
     case 'firstLetter':
-      // if (filter.length > 1) {
-      //    global.alert('Your search must have only 1 (one) character');
-      // }
       fetchMealsByLetter(searchInput);
+      if (filter.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      }
       break;
     default:
     }
   };
 
-  // const handleDrinks = async () => {
-  //   switch (ingredientsFilter) {
-  //     case 'ingredients':
-  //       await fetchDrinksByIngredient(searchInput);
-  //   }
-  //   switch (nameFilter) {
-  //     case 'name':
-  //       await fetchDrinksByName(searchInput);
-  //   }
-  //   switch (letterFilter) {
-  //     case letterFilter.length > 1:
-  //       global.alert('Your search must have only 1 (one) character');
-  //       break;
-  //     case 'firstLetter':
-  //       await fetchDrinksByLetter(searchInput);
-  //   }
-  // };
+  const handleDrinks = () => {
+    switch (filter) {
+    case 'ingredients':
+      fetchDrinksByIngredient(searchInput);
+      break;
+    case 'name':
+      fetchDrinksByName(searchInput);
+      break;
+    case 'firstLetter':
+      fetchDrinksByLetter(searchInput);
+      if (filter.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      }
+      break;
+    default:
+    }
+  };
 
   return (
     <section>
@@ -99,7 +101,7 @@ function SearchBar() {
             data-testid="first-letter-search-radio"
             type="radio"
             id="first-letter"
-            value="firstletter"
+            value="firstLetter"
             name="sort"
             onClick={ handleFilter }
           />
@@ -109,7 +111,11 @@ function SearchBar() {
       <button
         data-testid="exec-search-btn"
         type="button"
-        onClick={ handleSearch }
+        onClick={ () => {
+          if (history.location.pathname === '/meals') {
+            handleMeals();
+          } handleDrinks();
+        } }
       >
         Search
       </button>
