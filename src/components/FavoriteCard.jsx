@@ -2,9 +2,19 @@ import React from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function FavoriteCard({ recipe, index }) {
+function FavoriteCard({ recipe, index, handler }) {
   const { id, type, nationality, category, alcoholicOrNot, name, image } = recipe;
   console.log(recipe, index);
+
+  const handleShare = () => {};
+
+  const handleFav = () => {
+    const localStorageData = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newFavRecipes = localStorageData.filter((fil) => fil.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavRecipes));
+    handler(newFavRecipes);
+  };
+
   return (
     <div id={ id }>
       <img
@@ -28,6 +38,7 @@ function FavoriteCard({ recipe, index }) {
         type="button"
         data-testid={ `${index}-horizontal-share-btn` }
         src={ shareIcon }
+        onClick={ handleShare }
       />
 
       <button
@@ -35,6 +46,7 @@ function FavoriteCard({ recipe, index }) {
         type="button"
         data-testid={ `${index}-horizontal-favorite-btn` }
         src={ blackHeartIcon }
+        onClick={ handleFav }
       />
 
     </div>
