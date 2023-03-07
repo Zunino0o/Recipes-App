@@ -56,7 +56,6 @@ function Profile() {
         >
           Logout
         </button>
-        
       </div>
       <Footer />
     </section>
