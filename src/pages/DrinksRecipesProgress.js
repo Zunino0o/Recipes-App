@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import FavoriteButton from '../components/FavoriteButton';
-import FinishButton from '../components/FinishButton';
 import RecipeInProgress from '../components/RecipeInProgress';
 import ShareButton from '../components/ShareButton';
 import fetchRecipeId from '../services/fetchRecipeId';
@@ -15,7 +14,7 @@ function DrinksRecipesProgress() {
 
   useEffect(() => {
     async function fetch() {
-      setRecipe(await fetchRecipeId(15997, type));
+      setRecipe(await fetchRecipeId(recipeID, type));
     }
     fetch();
   }, []);

@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import FinishButton from "./FinishButton";
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import FinishButton from './FinishButton';
 
 function RecipeIngredients({ recipe }) {
   const ingredients = [];
@@ -9,7 +9,7 @@ function RecipeIngredients({ recipe }) {
   const [isFinish, setIsFinish] = useState(false);
 
   useEffect(() => {
-    let storageRecipes = JSON.parse(localStorage.getItem("inProgressRecipes"));
+    let storageRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (storageRecipes === null) storageRecipes = [];
     setSelectedIngredients(storageRecipes);
   }, []);
@@ -25,34 +25,34 @@ function RecipeIngredients({ recipe }) {
   function handleCheck(ingredient) {
     if (selectedIngredients.includes(ingredient)) {
       setSelectedIngredients(
-        selectedIngredients.filter((item) => item !== ingredient)
+        selectedIngredients.filter((item) => item !== ingredient),
       );
       localStorage.setItem(
-        "inProgressRecipes",
+        'inProgressRecipes',
         JSON.stringify(
-          selectedIngredients.filter((item) => item !== ingredient)
-        )
+          selectedIngredients.filter((item) => item !== ingredient),
+        ),
       );
     } else {
       setSelectedIngredients([...selectedIngredients, ingredient]);
       localStorage.setItem(
-        "inProgressRecipes",
-        JSON.stringify([...selectedIngredients, ingredient])
+        'inProgressRecipes',
+        JSON.stringify([...selectedIngredients, ingredient]),
       );
     }
   }
 
   Object.keys(recipe).forEach((key) => {
-    if (key.startsWith("strIngredient")) {
+    if (key.startsWith('strIngredient')) {
       const ingredient = recipe[key];
-      if (ingredient !== "" && ingredient !== null) {
+      if (ingredient !== '' && ingredient !== null) {
         ingredients.push(ingredient);
       }
     }
-    if (key.startsWith("strMeasure")) {
+    if (key.startsWith('strMeasure')) {
       let measure = recipe[key];
       if (measure == null) {
-        measure = "";
+        measure = '';
       }
       measures.push(measure);
     }
@@ -62,21 +62,21 @@ function RecipeIngredients({ recipe }) {
     <div>
       <ul className="ingredientsList">
         {ingredients.map((ingredient, index) => (
-          <li key={index}>
+          <li key={ index }>
             <div
-              data-testid={`${index}-ingredient-step`}
+              data-testid={ `${index}-ingredient-step` }
               className={
-                selectedIngredients.includes(ingredient) ? "select" : ""
+                selectedIngredients.includes(ingredient) ? 'select' : ''
               }
             >
               <input
                 type="checkbox"
-                id={ingredient}
-                name={ingredient}
-                onChange={() => handleCheck(ingredient)}
-                checked={selectedIngredients.includes(ingredient)}
+                id={ ingredient }
+                name={ ingredient }
+                onChange={ () => handleCheck(ingredient) }
+                checked={ selectedIngredients.includes(ingredient) }
               />
-              <label htmlFor={ingredient}>
+              <label htmlFor={ ingredient }>
                 {measures[index]}
                 {ingredient}
               </label>
@@ -84,7 +84,7 @@ function RecipeIngredients({ recipe }) {
           </li>
         ))}
       </ul>
-      <FinishButton isFinish={isFinish} />
+      <FinishButton isFinish={ isFinish } recipe={ recipe } />
     </div>
   );
 }
