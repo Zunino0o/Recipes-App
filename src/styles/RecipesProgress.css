@@ -1,4 +1,3 @@
-input[type="checkbox"]:checked + label {
+.select {
   text-decoration: line-through solid rgb(0, 0, 0);
-  background-color: red;
 }
