@@ -4,7 +4,8 @@ import LoginContext from '../context/LoginContext';
 
 function Login() {
   const history = useHistory();
-  const { email,
+  const {
+    email,
     setUserEmail,
     userPassword,
     setUserPassword,

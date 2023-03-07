@@ -17,6 +17,8 @@ function SearchBar() {
     setFilter,
     searchInput,
     setSearchInput,
+    setRender,
+    render,
   } = useContext(LoginContext);
 
   const handleFilter = ({ target }) => {
@@ -27,16 +29,17 @@ function SearchBar() {
     setSearchInput(target.value);
   };
 
-  const handleMeals = () => {
+  const handleMeals = async () => {
     switch (filter) {
     case 'ingredients':
-      fetchMealsByIngredient(searchInput);
+      await setRender(await fetchMealsByIngredient(searchInput))
+      console.log(render)
       break;
     case 'name':
-      fetchMealsByName(searchInput);
+      await setRender(await fetchMealsByName(searchInput));
       break;
     case 'firstLetter':
-      fetchMealsByLetter(searchInput);
+      await setRender(await fetchMealsByLetter(searchInput));
       if (filter.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
@@ -45,16 +48,16 @@ function SearchBar() {
     }
   };
 
-  const handleDrinks = () => {
+  const handleDrinks = async () => {
     switch (filter) {
     case 'ingredients':
-      fetchDrinksByIngredient(searchInput);
+      await setRender(await fetchDrinksByIngredient(searchInput));
       break;
     case 'name':
-      fetchDrinksByName(searchInput);
+      await setRender(await fetchDrinksByName(searchInput));
       break;
     case 'firstLetter':
-      fetchDrinksByLetter(searchInput);
+      await setRender(await fetchDrinksByLetter(searchInput));
       if (filter.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
