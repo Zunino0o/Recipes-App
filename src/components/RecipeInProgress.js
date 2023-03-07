@@ -33,9 +33,6 @@ function RecipeInProgress({ recipe, type }) {
           <p key={ item }>{item}</p>
         ))}
       </div>
-      <button type="button" data-testid="finish-recipe-btn">
-        Finalizar
-      </button>
       <RecipeIngredients recipe={ receita } />
     </div>
   );
