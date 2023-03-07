@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import RecipeInProgress from '../components/RecipeInProgress';
 import fetchRecipeId from '../services/fetchRecipeId';
+import FavoriteButton from '../components/FavoriteButton';
+import ShareButton from '../components/ShareButton';
 import '../styles/RecipesProgress.css';
 
 function MealsRecipesProgress() {
@@ -21,6 +23,8 @@ function MealsRecipesProgress() {
     <div>
       <h1>Meals Receita Progress</h1>
       <RecipeInProgress type={ type } recipe={ recipe } />
+      <ShareButton />
+      <FavoriteButton recipe={ recipe[type] } />
     </div>
   );
 }
