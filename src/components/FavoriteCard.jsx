@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../styles/FavoriteCard.css';
@@ -28,7 +29,7 @@ function FavoriteCard({ recipe, index, handler }) {
   };
 
   return (
-    <div id={ id }>
+    <div id={ id } data-testid="favorite-card">
       <a href={ `/${type}s/${id}` }>
         <img
           src={ image }
@@ -54,20 +55,35 @@ function FavoriteCard({ recipe, index, handler }) {
         id="share-btn"
         type="button"
         data-testid={ `${index}-horizontal-share-btn` }
-        src={ shareIcon }
         onClick={ handleShare }
-      />
-
+      >
+        <img src={ shareIcon } alt="Share Button" />
+      </button>
       <button
         id="favorite-btn"
         type="button"
         data-testid={ `${index}-horizontal-favorite-btn` }
-        src={ blackHeartIcon }
         onClick={ handleFav }
-      />
+      >
+        <img src={ blackHeartIcon } alt="Favorite Button" />
+      </button>
 
     </div>
   );
 }
+
+FavoriteCard.propTypes = {
+  recipe: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    nationality: PropTypes.string,
+    category: PropTypes.string.isRequired,
+    alcoholicOrNot: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  handler: PropTypes.func.isRequired,
+};
 
 export default FavoriteCard;
