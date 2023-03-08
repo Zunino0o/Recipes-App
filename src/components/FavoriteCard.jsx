@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import useClipboard from 'react-copy-to-clipboard';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
@@ -8,12 +7,11 @@ function FavoriteCard({ recipe, index, handler }) {
   // console.log(recipe, index);
 
   const [alert, setAlert] = useState('');
-  // const [clipboard, copyToClipboard] = useClipboard();
 
   const handleShare = () => {
     const TIME = 3000;
     const clipboardText = `http://localhost:3000/${type}s/${id}`;
-    console.log(clipboardText);
+    // console.log(clipboardText);
     navigator.clipboard.writeText(clipboardText);
     setAlert('Link copied!');
     setTimeout(() => {
