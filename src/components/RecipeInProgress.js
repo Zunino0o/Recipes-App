@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import RecipeIngredients from './RecipeIngredients';
 
-function RecipeInProgress({ recipe, type }) {
+function RecipeInProgress({ recipe }) {
   if (recipe === '') {
     return <h1>Carregando</h1>;
   }
@@ -10,7 +10,7 @@ function RecipeInProgress({ recipe, type }) {
   let image = '';
   let title = '';
 
-  if (type === 'meals') {
+  if (Object.keys(recipe)[0] === 'meals') {
     [receita] = recipe.meals;
     title = receita.strMeal;
     category = receita.strCategory;
@@ -60,7 +60,6 @@ RecipeInProgress.propTypes = {
       ),
     }),
   ]).isRequired,
-  type: PropTypes.oneOf(['meals', 'drinks']).isRequired,
 };
 
 export default RecipeInProgress;

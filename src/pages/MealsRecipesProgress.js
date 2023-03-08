@@ -9,7 +9,6 @@ function MealsRecipesProgress() {
   const type = window.location.pathname.split('/')[1];
   const recipeID = window.location.pathname.split('/')[2];
   const [recipe, setRecipe] = useState('');
-
   // const teste = 52977;
 
   useEffect(() => {
