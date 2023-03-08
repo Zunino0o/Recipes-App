@@ -2,8 +2,19 @@ import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import renderWithRouter from './RenderWithRouter';
+import mockData from './helper/mockData';
 
 describe('FavoriteRecipes component', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+      json: () => mockData,
+    }));
+  });
+
+  afterEach(() => {
+    global.fetch.mockRestore();
+  });
+
   it('renders the header with the correct title', () => {
     const { getByRole } = renderWithRouter(<FavoriteRecipes />);
     expect(getByRole('heading')).toHaveTextContent('FavoriteRecipes');
@@ -107,5 +118,42 @@ describe('FavoriteRecipes component', () => {
     fireEvent.click(getByTestId('filter-by-all-btn'));
 
     expect(getAllByTestId('favorite-card')).toHaveLength(2);
+  });
+
+  it('test copy to clipboard', async () => {
+    const mockRecipes = [{
+      id: 123,
+      type: 'drink',
+      nationality: null,
+      category: 'Cocktail',
+      alcoholicOrNot: 'Alcoholic',
+      name: 'Caipirinha',
+      image: 'https://www.example.com/caipirinha.jpg',
+    },
+    {
+      id: 321,
+      type: 'meal',
+      nationality: 'American',
+      category: 'Fast Food',
+      alcoholicOrNot: null,
+      name: 'HotDog',
+      image: 'https://www.example.com/hotdog.jpg',
+    }];
+
+    navigator.clipboard = {
+      writeText: jest.fn(() => Promise.resolve()),
+    };
+
+    const {
+      getByTestId,
+      getByText,
+    } = renderWithRouter(<FavoriteRecipes />);
+
+    localStorage.setItem('favoriteRecipes', JSON.stringify(mockRecipes));
+
+    const shareButton = getByTestId('0-horizontal-share-btn');
+    fireEvent.click(shareButton);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost:3000/drinks/123');
+    expect(getByText('Link copied!')).toBeInTheDocument();
   });
 });

@@ -4,7 +4,7 @@ import ProfileIcon from '../images/profileIcon.svg';
 import SearchIcon from '../images/searchIcon.svg';
 
 function Header() {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const history = useHistory();
   const Path = history.location.pathname.substring(1);
@@ -27,8 +27,8 @@ function Header() {
       const compoundPath = `${firstIndex} ${secondIndex}`;
       setTitle(compoundPath);
     } else {
-      const path = Path[0].toUpperCase() + Path.substring(1);
-      setTitle(path);
+      const pathTitle = Path[0].toUpperCase() + Path.substring(1);
+      setTitle(pathTitle);
     }
   }, []);
 
