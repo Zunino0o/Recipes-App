@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../styles/FavoriteCard.css';
 
 function FavoriteCard({ recipe, index, handler }) {
   const { id, type, nationality, category, alcoholicOrNot, name, image } = recipe;
@@ -28,15 +29,18 @@ function FavoriteCard({ recipe, index, handler }) {
 
   return (
     <div id={ id }>
-      <img
-        src={ image }
-        alt={ name }
-        data-testid={ `${index}-horizontal-image` }
-      />
-      <span data-testid={ `${index}-horizontal-name` }>{ name }</span>
-      <p
-        data-testid={ `${index}-horizontal-top-text` }
-      >
+      <a href={ `/${type}s/${id}` }>
+        <img
+          src={ image }
+          alt={ name }
+          data-testid={ `${index}-horizontal-image` }
+          className="foodImage"
+        />
+      </a>
+      <a href={ `/${type}s/${id}` }>
+        <span data-testid={ `${index}-horizontal-name` }>{ name }</span>
+      </a>
+      <p data-testid={ `${index}-horizontal-top-text` }>
         {
           type === 'drink'
             ? `${alcoholicOrNot} - ${category}`
