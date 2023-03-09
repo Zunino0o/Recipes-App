@@ -1,4 +1,4 @@
-export default mockRecipes = [{
+const mockRecipes = [{
   id: 123,
   type: 'drink',
   nationality: null,
@@ -16,3 +16,5 @@ export default mockRecipes = [{
   name: 'HotDog',
   image: 'https://www.example.com/hotdog.jpg',
 }];
+
+export default mockRecipes;
