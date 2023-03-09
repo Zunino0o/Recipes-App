@@ -9,6 +9,8 @@ function LoginProvider({ children }) {
   const [filter, setFilter] = useState('ingredients');
   const [searchInput, setSearchInput] = useState('');
   const [render, setRender] = useState([]);
+  const [type, setType] = useState('meals');
+  const [recipes, setRecipes] = useState([]);
 
   const context = useMemo(() => ({
     email,
@@ -23,6 +25,10 @@ function LoginProvider({ children }) {
     setFilter,
     render,
     setRender,
+    type,
+    setType,
+    recipes,
+    setRecipes,
   }), [
     email,
     userPassword,
@@ -30,8 +36,9 @@ function LoginProvider({ children }) {
     filter,
     searchInput,
     render,
+    type,
+    recipes,
   ]);
-
   return (
     <LoginContext.Provider
       value={ context }
