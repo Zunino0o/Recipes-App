@@ -1,10 +1,11 @@
+import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-function Meals() {
+function Meals() {  
   return (
     <section>
-      <Header pageTitle="Meals" />
+      <Header pageTitle="Meals" />     
       <Footer />
     </section>
   );

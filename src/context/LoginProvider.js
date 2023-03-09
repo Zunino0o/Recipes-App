@@ -8,7 +8,7 @@ function LoginProvider({ children }) {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [filter, setFilter] = useState('ingredients');
   const [searchInput, setSearchInput] = useState('');
-  const [render, setRender] = useState();
+  const [render, setRender] = useState([]);
 
   const context = useMemo(() => ({
     email,

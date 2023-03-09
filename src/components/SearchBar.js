@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import LoginContext from '../context/LoginContext';
+import MealsRecipes from '../pages/MealsRecipes';
+import DrinksRecipes from '../pages/DrinksRecipes';
+
 import {
   fetchMealsByIngredient,
   fetchDrinksByIngredient,
@@ -12,13 +15,14 @@ import {
 
 function SearchBar() {
   const history = useHistory();
+  const { path } = useRouteMatch();
+  const id = path.includes('/meals') ? 'idMeal' : 'idDrink';
   const {
     filter,
     setFilter,
     searchInput,
     setSearchInput,
     setRender,
-    render,
   } = useContext(LoginContext);
 
   const handleFilter = ({ target }) => {
@@ -29,40 +33,61 @@ function SearchBar() {
     setSearchInput(target.value);
   };
 
-  const handleMeals = async () => {
-    switch (filter) {
-    case 'ingredients':
-      await setRender(await fetchMealsByIngredient(searchInput))
-      console.log(render)
-      break;
-    case 'name':
-      await setRender(await fetchMealsByName(searchInput));
-      break;
-    case 'firstLetter':
-      await setRender(await fetchMealsByLetter(searchInput));
-      if (filter.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
+  const handleSearch = async (type, search) => {
+    try {
+      const results = await search(searchInput);
+      setRender(results);
+      if (results?.[type]) {
+        const [firstResult] = results[type];
+        if (results[type].length === 1 && firstResult[id]) {
+          history.push(`${path}/${firstResult[id]}`);
+        }
+      } else {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
-      break;
-    default:
+    } catch (error) {
+      console.error(error);
+      global.alert('An error occurred. Please try again later.');
     }
   };
 
-  const handleDrinks = async () => {
-    switch (filter) {
-    case 'ingredients':
-      await setRender(await fetchDrinksByIngredient(searchInput));
-      break;
-    case 'name':
-      await setRender(await fetchDrinksByName(searchInput));
-      break;
-    case 'firstLetter':
-      await setRender(await fetchDrinksByLetter(searchInput));
-      if (filter.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
+  const handleSearchButton = async () => {
+    if (path.includes('/meals')) {
+      switch (filter) {
+      case 'ingredients':
+        await handleSearch('meals', fetchMealsByIngredient);
+        break;
+      case 'name':
+        await handleSearch('meals', fetchMealsByName);
+        break;
+      case 'firstLetter':
+        if (searchInput.length > 1) {
+          global.alert('Your search must have only 1 (one) character');
+        } else {
+          await handleSearch('meals', fetchMealsByLetter);
+        }
+        break;
+      default:
+        break;
       }
-      break;
-    default:
+    } else {
+      switch (filter) {
+      case 'ingredients':
+        await handleSearch('drinks', fetchDrinksByIngredient);
+        break;
+      case 'name':
+        await handleSearch('drinks', fetchDrinksByName);
+        break;
+      case 'firstLetter':
+        if (searchInput.length > 1) {
+          global.alert('Your search must have only 1 (one) character');
+        } else {
+          await handleSearch('drinks', fetchDrinksByLetter);
+        }
+        break;
+      default:
+        break;
+      }
     }
   };
 
@@ -114,14 +139,12 @@ function SearchBar() {
       <button
         data-testid="exec-search-btn"
         type="button"
-        onClick={ () => {
-          if (history.location.pathname === '/meals') {
-            handleMeals();
-          } handleDrinks();
-        } }
+        onClick={ handleSearchButton }
       >
         Search
       </button>
+      <MealsRecipes />
+      <DrinksRecipes />
     </section>
   );
 }

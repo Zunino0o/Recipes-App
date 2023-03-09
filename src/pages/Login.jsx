@@ -21,14 +21,14 @@ function Login() {
       setBtnDisabled(false);
     }
   };
-  const handleChangeEmail = (em) => {
-    setUserEmail(em);
+  const handleChangeEmail = ({ target }) => {
+    setUserEmail( target.value );
     console.log(email);
     handleButton();
   };
 
-  const handleChangePassword = (p) => {
-    setUserPassword(p);
+  const handleChangePassword = ({ target }) => {
+    setUserPassword(target.value);
     console.log(userPassword);
     handleButton();
   };
@@ -47,7 +47,7 @@ function Login() {
           placeholder="email"
           name="email"
           id="email"
-          onChange={ (e) => { handleChangeEmail(e.target.value); } }
+          onChange={ handleChangeEmail }
         />
       </label>
       <label htmlFor="password">
@@ -57,7 +57,7 @@ function Login() {
           placeholder="password"
           name="password"
           id="password"
-          onChange={ (e) => { handleChangePassword(e.target.value); } }
+          onChange={ handleChangePassword }
         />
       </label>
       <button
