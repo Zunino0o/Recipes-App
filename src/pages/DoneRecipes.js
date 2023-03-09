@@ -1,4 +1,4 @@
-import CardDoneRecipes from '../components/CardDoneRecipes';
+import CardDoneRecipe from '../components/CardDoneRecipe';
 import Header from '../components/Header';
 
 function DoneRecipes() {
@@ -17,7 +17,11 @@ function DoneRecipes() {
         <button type="button" data-testid="filter-by-drink-btn">
           Drinks
         </button>
-        <CardDoneRecipes recipes={ recipes } />
+        {recipes.map((recipe, index) => (
+          <div key={ index }>
+            <CardDoneRecipe recipe={ recipe } index={ index } />
+          </div>
+        ))}
       </div>
     </section>
   );

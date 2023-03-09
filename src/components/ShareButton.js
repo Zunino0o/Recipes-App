@@ -5,7 +5,6 @@ import iconBtn from '../images/shareIcon.svg';
 const copy = require('clipboard-copy');
 
 function ShareButton({ url, dataTestid }) {
-  console.log(dataTestid);
   const [isCliped, setIsCliped] = useState(false);
 
   const handleShare = () => {
@@ -15,8 +14,8 @@ function ShareButton({ url, dataTestid }) {
 
   return (
     <div>
-      <button type="button" onClick={ handleShare } data-testid={ dataTestid }>
-        <img src={ iconBtn } alt="share-link" />
+      <button type="button" onClick={ handleShare }>
+        <img src={ iconBtn } alt="share-link" data-testid={ dataTestid } />
       </button>
       {isCliped && <p>Link copied!</p>}
     </div>
