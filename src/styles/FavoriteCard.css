@@ -1,12 +1,12 @@
 .favoriteCard {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: row;
 }
 
 .favoriteCard :nth-child( 2 ) {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
 }
 
