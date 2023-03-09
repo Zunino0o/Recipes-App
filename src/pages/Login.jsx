@@ -22,7 +22,7 @@ function Login() {
     }
   };
   const handleChangeEmail = ({ target }) => {
-    setUserEmail( target.value );
+    setUserEmail(target.value);
     console.log(email);
     handleButton();
   };
