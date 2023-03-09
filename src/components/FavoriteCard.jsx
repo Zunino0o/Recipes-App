@@ -29,51 +29,60 @@ function FavoriteCard({ recipe, index, handler }) {
   };
 
   return (
-    <div id={ id } data-testid="favorite-card">
-      <a href={ `/${type}s/${id}` }>
-        <img
-          src={ image }
-          alt={ name }
-          data-testid={ `${index}-horizontal-image` }
-          className="foodImage"
-        />
-      </a>
-      <a href={ `/${type}s/${id}` }>
-        <span data-testid={ `${index}-horizontal-name` }>{ name }</span>
-      </a>
-      <p data-testid={ `${index}-horizontal-top-text` }>
-        {
-          type === 'drink'
-            ? `${alcoholicOrNot} - ${category}`
-            : `${nationality} - ${category}`
-        }
-      </p>
-      <br />
-      {alert}
-      <br />
-      <button
-        id="share-btn"
-        type="button"
-        onClick={ handleShare }
-      >
-        <img
-          src={ shareIcon }
-          alt="Share Button"
-          data-testid={ `${index}-horizontal-share-btn` }
-        />
-      </button>
-      <button
-        id="favorite-btn"
-        type="button"
-        onClick={ handleFav }
-      >
-        <img
-          src={ blackHeartIcon }
-          alt="Favorite Button"
-          data-testid={ `${index}-horizontal-favorite-btn` }
-        />
-      </button>
-
+    <div
+      id={ id }
+      data-testid="favorite-card"
+      className="favoriteCard"
+    >
+      <div>
+        <a href={ `/${type}s/${id}` }>
+          <img
+            src={ image }
+            alt={ name }
+            data-testid={ `${index}-horizontal-image` }
+            className="foodImage"
+          />
+        </a>
+      </div>
+      <div>
+        <a href={ `/${type}s/${id}` }>
+          <span data-testid={ `${index}-horizontal-name` }>{ name }</span>
+        </a>
+        <p data-testid={ `${index}-horizontal-top-text` }>
+          {
+            type === 'drink'
+              ? `${alcoholicOrNot} - ${category}`
+              : `${nationality} - ${category}`
+          }
+        </p>
+        <br />
+        {alert}
+        <br />
+        <div>
+          <button
+            id="share-btn"
+            type="button"
+            onClick={ handleShare }
+          >
+            <img
+              src={ shareIcon }
+              alt="Share Button"
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
+          </button>
+          <button
+            id="favorite-btn"
+            type="button"
+            onClick={ handleFav }
+          >
+            <img
+              src={ blackHeartIcon }
+              alt="Favorite Button"
+              data-testid={ `${index}-horizontal-favorite-btn` }
+            />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
