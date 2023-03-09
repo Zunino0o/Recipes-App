@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import ProfileIcon from '../images/profileIcon.svg';
 import SearchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const [title, setTitle] = useState('');
@@ -49,7 +50,7 @@ function Header() {
         )}
       </button>
       {showSearch && (
-        <input data-testid="search-input" type="text" placeholder="Search" />
+        <SearchBar />
       )}
       <p data-testid="page-title">
         {title}

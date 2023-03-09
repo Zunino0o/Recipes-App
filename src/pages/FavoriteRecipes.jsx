@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import FavoriteCard from '../components/FavoriteCard';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function FavoriteRecipes() {
   const [favRec, setFavRec] = useState([]);
@@ -61,6 +62,7 @@ function FavoriteRecipes() {
             />
           ))}
       </section>
+      <Footer />
     </section>
   );
 }
