@@ -114,6 +114,19 @@ describe('FavoriteRecipes component', () => {
       expect(getByText('Link copied!')).toBeInTheDocument();
     });
   });
+
+  it('handleFav test', () => {
+    setDefault(mockRecipes);
+
+    const {
+      getByTestId,
+    } = renderWithRouter(<FavoriteRecipes />);
+
+    fireEvent.click(getByTestId('0-horizontal-favorite-btn'));
+
+    const localStorageData = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(localStorageData.length).toBe(1);
+  });
 });
 
 // IAs tests

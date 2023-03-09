@@ -54,18 +54,24 @@ function FavoriteCard({ recipe, index, handler }) {
       <button
         id="share-btn"
         type="button"
-        data-testid={ `${index}-horizontal-share-btn` }
         onClick={ handleShare }
       >
-        <img src={ shareIcon } alt="Share Button" />
+        <img
+          src={ shareIcon }
+          alt="Share Button"
+          data-testid={ `${index}-horizontal-share-btn` }
+        />
       </button>
       <button
         id="favorite-btn"
         type="button"
-        data-testid={ `${index}-horizontal-favorite-btn` }
         onClick={ handleFav }
       >
-        <img src={ blackHeartIcon } alt="Favorite Button" />
+        <img
+          src={ blackHeartIcon }
+          alt="Favorite Button"
+          data-testid={ `${index}-horizontal-favorite-btn` }
+        />
       </button>
 
     </div>
