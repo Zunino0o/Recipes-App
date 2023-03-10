@@ -6,8 +6,9 @@ import ShareButton from '../components/ShareButton';
 import '../styles/RecipesProgress.css';
 
 function MealsRecipesProgress() {
-  const type = window.location.pathname.split('/')[1];
-  const recipeID = window.location.pathname.split('/')[2];
+  const url = window.location.href.replace('/in-progress', '');
+  const type = url.split('/')[3];
+  const recipeID = url.split('/')[4];
   const [recipe, setRecipe] = useState('');
   // const teste = 52977;
 
@@ -22,7 +23,7 @@ function MealsRecipesProgress() {
     <div>
       <h1>Meals Receita Progress</h1>
       <RecipeInProgress type={ type } recipe={ recipe } />
-      <ShareButton />
+      <ShareButton url={ url } dataTestid="share-btn" />
       <FavoriteButton recipe={ recipe[type] } />
     </div>
   );

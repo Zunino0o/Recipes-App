@@ -31,6 +31,8 @@ function FinishButton({ isFinish, recipe }) {
       'doneRecipes',
       JSON.stringify([...storageRecipes, recipeToStorage]),
     );
+    localStorage.removeItem('inProgressRecipes');
+
     history.push('/done-recipes');
   }
 
