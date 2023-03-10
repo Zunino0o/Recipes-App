@@ -16,8 +16,8 @@ function Profile() {
     case 'favorite':
       return history.push('/favorite-recipes');
     case 'logout':
+      localStorage.clear();
       history.push('/');
-      localStorage.setItem('user', JSON.stringify({ email: '' }));
       break;
     default:
       break;

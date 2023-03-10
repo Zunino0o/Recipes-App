@@ -1,0 +1,20 @@
+.favoriteCard {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.favoriteCard :nth-child( 2 ) {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.favoriteCard :nth-child( 2 ) :last-child {
+  display: flex;
+}
+
+.foodImage {
+  height: 134px;
+  width: 150px;
+}
