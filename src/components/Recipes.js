@@ -13,16 +13,16 @@ function Recipes() {
   } = useContext(LoginContext);
   const number12 = 12;
   const number5 = 5;
-  const [filter, setFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
   const recipeType = type === 'meals' ? 'Meal' : 'Drink';
 
   const handleClick = async (e) => {
     // const { name } = target;
-    setFilter(e);
-    if (e === filter) {
+    setCategoryFilter(e);
+    if (e === categoryFilter) {
       setRecipesArray([]);
-      setFilter('');
-      console.log(filter);
+      setCategoryFilter('');
+      // console.log(filter);
     } else {
       const filteredList = await getRecipesCategoriesFiltered(type, e);
       setRecipesArray(filteredList);

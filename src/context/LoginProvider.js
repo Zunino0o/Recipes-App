@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import LoginContext from './LoginContext';
 
 function LoginProvider({ children }) {
   const [email, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const [filter, setFilter] = useState('ingredients');
+  const [searchInput, setSearchInput] = useState('');
+  const [render, setRender] = useState([]);
   const [type, setType] = useState('meals');
   const [recipes, setRecipes] = useState([]);
   const [recipesArray, setRecipesArray] = useState([]);
@@ -17,6 +20,12 @@ function LoginProvider({ children }) {
     setUserPassword,
     btnDisabled,
     setBtnDisabled,
+    searchInput,
+    setSearchInput,
+    filter,
+    setFilter,
+    render,
+    setRender,
     type,
     setType,
     recipes,
@@ -25,10 +34,25 @@ function LoginProvider({ children }) {
     setBtnsCategory,
     recipesArray,
     setRecipesArray,
-  }), [email, userPassword, btnDisabled, type, recipes, btnsCategory, recipesArray]);
+  }), [
+    email,
+    userPassword,
+    btnDisabled,
+    filter,
+    searchInput,
+    render,
+    type,
+    recipes,
+    btnsCategory,
+    recipesArray,
+  ]);
 
   return (
-    <LoginContext.Provider value={ context }>{children}</LoginContext.Provider>
+    <LoginContext.Provider
+      value={ context }
+    >
+      {children}
+    </LoginContext.Provider>
   );
 }
 
