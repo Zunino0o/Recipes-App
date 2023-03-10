@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import '../styles/DoneRecipes.css';
 
 function DoneRecipes() {
-  const recipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const recipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   const [filteredRecipes, setFilteredRecipes] = useState(recipes);
 
   function applyFilter(filter) {
