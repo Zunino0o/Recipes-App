@@ -5,8 +5,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Profile() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
-  console.log(email);
+  const { email } = JSON.parse(localStorage.getItem('user')) || [];
+  // console.log(email);
 
   const history = useHistory();
   const handleRedirect = ({ target }) => {
