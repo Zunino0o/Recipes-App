@@ -42,11 +42,13 @@ const mockRecipes = [
   },
 ];
 
+const doneRecipes = 'done-recipes';
+
 describe('Testes da pagina DoneRecipes', () => {
   it('Testa se os elementos são renderizados', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(mockRecipes));
     const history = createMemoryHistory();
-    history.push('/done-recipes');
+    history.push(doneRecipes);
     render(
       <Router history={ history }>
         <DoneRecipes />
@@ -66,7 +68,7 @@ describe('Testes da pagina DoneRecipes', () => {
   it('Testa os filtros', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(mockRecipes));
     const history = createMemoryHistory();
-    history.push('/done-recipes');
+    history.push(doneRecipes);
     render(
       <Router history={ history }>
         <DoneRecipes />
@@ -85,5 +87,17 @@ describe('Testes da pagina DoneRecipes', () => {
     const filterAll = screen.getByTestId('filter-by-all-btn');
     userEvent.click(filterAll);
     expect(screen.queryByTestId('2-horizontal-name')).toBeInTheDocument();
+  });
+
+  it('Testa localstorage vazio', () => {
+    localStorage.removeItem('doneRecipes');
+    const history = createMemoryHistory();
+    history.push(doneRecipes);
+    render(
+      <Router history={ history }>
+        <DoneRecipes />
+      </Router>,
+    );
+    expect(screen.queryByTestId('0-horizontal-name')).not.toBeInTheDocument();
   });
 });
