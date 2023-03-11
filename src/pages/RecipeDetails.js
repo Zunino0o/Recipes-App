@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import '../styles/RecipeDetails.css';
 import PropTypes from 'prop-types';
 import LoginContext from '../context/LoginContext';
@@ -127,12 +128,11 @@ function RecipeDetails(props) {
       </p>
       {recipeData.video && (
         <div>
-          <iframe
-            title="video"
-            data-testid="video"
+          <ReactPlayer
+            url={ recipeData.video }
             width="420"
             height="345"
-            src={ recipeData.video }
+            data-testid="video"
           />
         </div>
       )}
