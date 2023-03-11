@@ -20,7 +20,7 @@ function RecipeIngredients({ recipe }) {
     } else {
       setIsFinish(false);
     }
-  }, [selectedIngredients]);
+  }, [selectedIngredients, ingredients.length]);
 
   function handleCheck(ingredient) {
     if (selectedIngredients.includes(ingredient)) {

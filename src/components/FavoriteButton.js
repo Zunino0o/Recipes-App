@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -7,9 +7,11 @@ function FavoriteButton({ recipe }) {
   const [isFavorited, setIsFavorited] = useState(false);
   const typeMelsDrink = window.location.pathname.split('/')[1];
   const idRecipe = typeMelsDrink === 'meals' ? 'idMeal' : 'idDrink';
-  const favoriteRecipes = localStorage.getItem('favoriteRecipes')
-    ? JSON.parse(localStorage.getItem('favoriteRecipes'))
-    : [];
+  const favoriteRecipes = useMemo(() => (
+    localStorage.getItem('favoriteRecipes')
+      ? JSON.parse(localStorage.getItem('favoriteRecipes'))
+      : []
+  ), []);
 
   useEffect(() => {
     if (recipe) {
@@ -18,7 +20,7 @@ function FavoriteButton({ recipe }) {
       );
       setIsFavorited(fav);
     }
-  }, [recipe]);
+  }, [recipe, favoriteRecipes, idRecipe]);
 
   const handleFavoriteBtn = () => {
     const newFavRecipe = {

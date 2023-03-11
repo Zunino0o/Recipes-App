@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../styles/RecipeDetails.css';
 import PropTypes from 'prop-types';
@@ -11,10 +11,15 @@ import {
   fetchDrinks,
   fetchMeals,
 } from '../services/fetchAPI';
+import fetchRecipeId from '../services/fetchRecipeId';
 
 function RecipeDetails(props) {
   const { match: matchProps } = props;
   const { params: { id: recipeId }, path: matchPath } = matchProps;
+  const url = window.location.href.replace('/in-progress', '');
+  const type = url.split('/')[3];
+  const IdRecipe = url.split('/')[4];
+  const [recipe, setRecipe] = useState('');
   const history = useHistory();
   const {
     recipeData,
@@ -62,7 +67,7 @@ function RecipeDetails(props) {
       setRecipeData(newRecipeData);
     };
     fetchRecipeDetails();
-  }, [recipeId, matchPath]);
+  }, [recipeId, matchPath, setRecipeData]);
 
   useEffect(() => {
     const fetchRecommendation = async () => {
@@ -80,16 +85,22 @@ function RecipeDetails(props) {
       }
     };
     fetchRecommendation();
-  }, [matchPath]);
+  }, [matchPath, setRecommendationData]);
+
+  useEffect(() => {
+    async function fetch() {
+      setRecipe(await fetchRecipeId(IdRecipe, type));
+    }
+    fetch();
+  }, [IdRecipe, type]);
 
   return (
     <div>
       <h1 data-testid="recipe-title">{ recipeData.title }</h1>
       <div className="button-container">
-        <FavoriteButton recipeId={ recipeId } />
+        <FavoriteButton recipe={ recipe[type] } />
         <ShareButton
-          pathname={ matchPath }
-          recipeData={ recipeData }
+          url={ url }
           dataTestid="share-btn"
         />
       </div>

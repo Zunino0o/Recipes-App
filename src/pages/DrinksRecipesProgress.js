@@ -18,7 +18,7 @@ function DrinksRecipesProgress() {
       setRecipe(await fetchRecipeId(recipeID, type));
     }
     fetch();
-  }, []);
+  }, [recipeID, type]);
 
   return (
     <div>
