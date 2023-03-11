@@ -1,0 +1,33 @@
+.recommendations-container {
+  overflow-x: scroll;
+  display: flex;
+}
+
+.recommendation-card {
+  min-width: 200px;
+  margin-right: 16px;
+}
+
+.recommendation-card img {
+  width: 100%;
+  height: auto;
+}
+
+.recommendation-title {
+  text-align: center;
+}
+
+.start-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 80%;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: green;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}

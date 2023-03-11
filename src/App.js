@@ -11,6 +11,7 @@ import MealsRecipes from './pages/MealsRecipes';
 import DrinksRecipes from './pages/DrinksRecipes';
 import Login from './pages/Login';
 import LoginProvider from './context/LoginProvider';
+import RecipeDetails from './pages/RecipeDetails';
 
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -32,6 +33,16 @@ function App() {
               exact
               path="/drinks/:id-da-receita"
               component={ DrinksRecipes }
+            />
+            <Route
+              exact
+              path="/meals/:id"
+              component={ RecipeDetails }
+            />
+            <Route
+              exact
+              path="/drinks/:id"
+              component={ RecipeDetails }
             />
             <Route
               exact
