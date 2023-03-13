@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginContext from '../context/LoginContext';
 import { getRecipesCategoriesFiltered } from '../services/fetchAPI';
+import '../styles/Recipes.css';
 
 function Recipes() {
   const {
@@ -41,78 +42,66 @@ function Recipes() {
   const recipesFinal = recipesArray.length === 0 ? recipes : recipesArray;
 
   return (
-    <div>
-      {btnsCategory.map((e, index) => (index < number5 && (
+    <div className="recipes-container">
+      <div className="category-btn">
+        {btnsCategory.map(
+          (e, index) => index < number5 && (
+            <button
+              type="button"
+              key={ e.strCategory }
+              name={ e.strCategory }
+              data-testid={ `${e.strCategory}-category-filter` }
+              onClick={ () => handleClick(e.strCategory) }
+            >
+              {e.strCategory}
+            </button>
+          ),
+        )}
         <button
           type="button"
-          key={ e.strCategory }
-          name={ e.strCategory }
-          data-testid={ `${e.strCategory}-category-filter` }
-          onClick={ () => handleClick(e.strCategory) }
+          name="all"
+          onClick={ handleClickAll }
+          data-testid="All-category-filter"
         >
-          {e.strCategory}
+          All
         </button>
-      )))}
-      <button
-        type="button"
-        name="all"
-        onClick={ handleClickAll }
-        data-testid="All-category-filter"
-      >
-        All
-      </button>
+      </div>
 
-      {recipeType === 'Meal'
-        ? recipesFinal.map((e, index) => (
-          index < number12 && (
-            <Link
-              key={ index }
-              to={ `/meals/${e.idMeal}` }
-            >
-              <li
-                key={ e.id }
-                data-testid={ `${index}-recipe-card` }
-              >
-                <img
-                  alt={ e.strMeal }
-                  data-testid={ `${index}-card-img` }
-                  src={ e.strMealThumb }
-                />
-                <p
-                  data-testid={ `${index}-card-name` }
+      <div className="recipe-list">
+        {recipeType === 'Meal'
+          ? recipesFinal.map(
+            (e, index) => index < number12 && (
+              <Link key={ index } to={ `/meals/${e.idMeal}` }>
+                <div
+                  key={ e.id }
+                  data-testid={ `${index}-recipe-card` }
+                  className="recipe-item"
                 >
-                  {e.strMeal}
-
-                </p>
-              </li>
-            </Link>
+                  <img
+                    alt={ e.strMeal }
+                    data-testid={ `${index}-card-img` }
+                    src={ e.strMealThumb }
+                  />
+                  <p data-testid={ `${index}-card-name` }>{e.strMeal}</p>
+                </div>
+              </Link>
+            ),
           )
-        ))
-        : recipesFinal.map((e, index) => (
-          index < number12 && (
-            <Link
-              key={ index }
-              to={ `/drinks/${e.idDrink}` }
-            >
-              <li
-                key={ e.id }
-                data-testid={ `${index}-recipe-card` }
-              >
-                <img
-                  alt={ e.strDrink }
-                  data-testid={ `${index}-card-img` }
-                  src={ e.strDrinkThumb }
-                />
-                <p
-                  data-testid={ `${index}-card-name` }
-                >
-                  {e.strDrink}
-
-                </p>
-              </li>
-            </Link>
-          )
-        ))}
+          : recipesFinal.map(
+            (e, index) => index < number12 && (
+              <Link key={ index } to={ `/drinks/${e.idDrink}` }>
+                <li key={ e.id } data-testid={ `${index}-recipe-card` }>
+                  <img
+                    alt={ e.strDrink }
+                    data-testid={ `${index}-card-img` }
+                    src={ e.strDrinkThumb }
+                  />
+                  <p data-testid={ `${index}-card-name` }>{e.strDrink}</p>
+                </li>
+              </Link>
+            ),
+          )}
+      </div>
     </div>
   );
 }

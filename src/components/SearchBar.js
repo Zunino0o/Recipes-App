@@ -3,6 +3,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import LoginContext from '../context/LoginContext';
 import MealsRecipes from '../pages/MealsRecipes';
 import DrinksRecipes from '../pages/DrinksRecipes';
+import '../styles/SearchBar.css';
 
 import {
   fetchMealsByIngredient,
@@ -93,56 +94,59 @@ function SearchBar() {
 
   return (
     <section>
-      <div>
-        <div>
-          <input
-            data-testid="search-input"
-            type="text"
-            placeholder="Search"
-            onChange={ handleChange }
-          />
+      <div className="search-bar-container">
+        <input
+          data-testid="search-input"
+          type="text"
+          placeholder="Search"
+          onChange={ handleChange }
+          className="search-input"
+        />
+        <div className="categorys">
+          <label htmlFor="ingredient">
+            <input
+              data-testid="ingredient-search-radio"
+              type="radio"
+              id="ingredient"
+              value="ingredients"
+              name="sort"
+              onClick={ handleFilter }
+            />
+            Ingredient
+          </label>
+          <label htmlFor="name">
+            <input
+              data-testid="name-search-radio"
+              type="radio"
+              id="name"
+              value="name"
+              name="sort"
+              onClick={ handleFilter }
+            />
+            Name
+          </label>
+          <label htmlFor="first-letter">
+            <input
+              data-testid="first-letter-search-radio"
+              type="radio"
+              id="first-letter"
+              value="firstLetter"
+              name="sort"
+              onClick={ handleFilter }
+            />
+            First Letter
+          </label>
         </div>
-        <label htmlFor="ingredient">
-          <input
-            data-testid="ingredient-search-radio"
-            type="radio"
-            id="ingredient"
-            value="ingredients"
-            name="sort"
-            onClick={ handleFilter }
-          />
-          Ingredient
-        </label>
-        <label htmlFor="name">
-          <input
-            data-testid="name-search-radio"
-            type="radio"
-            id="name"
-            value="name"
-            name="sort"
-            onClick={ handleFilter }
-          />
-          Name
-        </label>
-        <label htmlFor="first-letter">
-          <input
-            data-testid="first-letter-search-radio"
-            type="radio"
-            id="first-letter"
-            value="firstLetter"
-            name="sort"
-            onClick={ handleFilter }
-          />
-          First Letter
-        </label>
+
+        <button
+          data-testid="exec-search-btn"
+          type="button"
+          onClick={ handleSearchButton }
+        >
+          Search
+        </button>
       </div>
-      <button
-        data-testid="exec-search-btn"
-        type="button"
-        onClick={ handleSearchButton }
-      >
-        Search
-      </button>
+
       <MealsRecipes />
       <DrinksRecipes />
     </section>

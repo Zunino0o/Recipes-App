@@ -1,10 +1,10 @@
-import drink from '../images/drinkIcon.svg';
-import meal from '../images/mealIcon.svg';
+import drink from '../images/drinkIcon.png';
+import meal from '../images/mealIcon.png';
 import '../styles/Footer.css';
 
 function Footer() {
   return (
-    <div data-testid="footer" className="footer">
+    <div data-testid="footer" className="footer-container">
       <a href="/drinks">
         <img src={ drink } data-testid="drinks-bottom-btn" alt="drinks" />
       </a>
