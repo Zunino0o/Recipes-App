@@ -42,6 +42,7 @@ function FinishButton({ isFinish, recipe }) {
       data-testid="finish-recipe-btn"
       disabled={ !isFinish }
       onClick={ handleClick }
+      className="start-btn"
     >
       Finalizar
     </button>

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import DrinksRecipesProgress from '../pages/DrinksRecipesProgress';
 import MealsRecipesProgress from '../pages/MealsRecipesProgress';
+import renderWithRouter from './RenderWithRouter';
 
 const mockDrinksFetch = {
   drinks: [
@@ -94,7 +95,7 @@ describe('Testes das páginas RecipesProgress', () => {
       json: jest.fn().mockResolvedValue(mockMealsFetch),
     });
 
-    render(<MealsRecipesProgress />);
+    renderWithRouter(<MealsRecipesProgress />);
     const title = await screen.findByTestId('recipe-title');
     const category = await screen.findByTestId('recipe-category');
     const image = await screen.findByTestId('recipe-photo');

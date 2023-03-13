@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import FavoriteButton from '../components/FavoriteButton';
 import RecipeInProgress from '../components/RecipeInProgress';
-import ShareButton from '../components/ShareButton';
 import fetchRecipeId from '../services/fetchRecipeId';
-import '../styles/RecipesProgress.css';
 
 function DrinksRecipesProgress() {
   const url = window.location.href.replace('/in-progress', '');
@@ -22,10 +19,7 @@ function DrinksRecipesProgress() {
 
   return (
     <div>
-      <h1>Drinks Receita Progress</h1>
-      <RecipeInProgress type={ type } recipe={ recipe } />
-      <ShareButton url={ url } dataTestid="share-btn" />
-      <FavoriteButton recipe={ recipe[type] } />
+      <RecipeInProgress type={ type } recipe={ recipe } url={ url } />
     </div>
   );
 }
