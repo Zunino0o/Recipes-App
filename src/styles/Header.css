@@ -1,0 +1,43 @@
+.header-container nav {
+  align-items: center;
+  background-color: #fcdc36;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 20px;
+}
+
+.header-container .header-btn {
+  background-color: transparent;
+  border: none;
+  color: #41197f;
+  cursor: pointer;
+}
+
+.header-logo {
+  display: flex;
+  font-style: italic;
+}
+
+.header-logo img {
+  object-fit: contain;
+}
+
+.header-logo h1, .header-title {
+  color: #41197f;
+  font-family: Epilogue , serif;
+  font-weight: 300;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.header-logo span {
+  font-style: normal;
+  letter-spacing: normal;
+  text-transform: lowercase;
+}
+
+.header-search-bar {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}

@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import ProfileIcon from '../images/profileIcon.svg';
 import SearchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../styles/Header.css';
+import recipesIcon from '../images/recipesIcon.png';
 
 function Header() {
   const [title, setTitle] = useState('');
@@ -34,27 +36,32 @@ function Header() {
   }, [Path]);
 
   return (
-    <header>
-      <button onClick={ handleProfileClick }>
-        <img
-          data-testid="profile-top-btn"
-          src={ ProfileIcon }
-          alt=""
-        />
-      </button>
-      <button onClick={ handleSearchClick }>
-        {' '}
-
-        {ShowSearch && (
-          <img data-testid="search-top-btn" src={ SearchIcon } alt="" />
-        )}
-      </button>
-      {showSearch && (
-        <SearchBar />
-      )}
-      <p data-testid="page-title">
-        {title}
-      </p>
+    <header className="header-container">
+      <nav>
+        <div className="header-logo">
+          <img src={ recipesIcon } alt="logo" />
+          <h1>
+            Recipes
+            {' '}
+            <span>app</span>
+          </h1>
+        </div>
+        <div className="wrapper">
+          <button onClick={ handleProfileClick } className="header-btn">
+            <img data-testid="profile-top-btn" src={ ProfileIcon } alt="" />
+          </button>
+          <button onClick={ handleSearchClick } className="header-btn">
+            {' '}
+            {ShowSearch && (
+              <img data-testid="search-top-btn" src={ SearchIcon } alt="" />
+            )}
+          </button>
+        </div>
+      </nav>
+      <div className="header-search-bar">
+        <h1 data-testid="page-title" className="header-title">{title}</h1>
+        {showSearch && <SearchBar />}
+      </div>
     </header>
   );
 }
