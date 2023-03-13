@@ -188,7 +188,7 @@ function RecipeDetails(props) {
         )}
         <button
           type="button"
-          className="start-btn"
+          className="start-btn fixed"
           data-testid="start-recipe-btn"
           onClick={ () => {
             if (matchPath.includes('/meals')) {

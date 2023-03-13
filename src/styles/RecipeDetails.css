@@ -86,6 +86,11 @@
   width: 100%;
 }
 
+.start-btn.fixed {
+  bottom: 0;
+  position: fixed;
+}
+
 .start-btn:disabled {
   opacity: 0.7;
 }
