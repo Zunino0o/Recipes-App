@@ -13,6 +13,16 @@ function LoginProvider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [recipesArray, setRecipesArray] = useState([]);
   const [btnsCategory, setBtnsCategory] = useState([]);
+  const [recommendationData, setRecommendationData] = useState({});
+  const [recipeData, setRecipeData] = useState({
+    thumb: '',
+    title: '',
+    category: '',
+    ingredient: [],
+    measure: [],
+    instruction: '',
+    video: '',
+  });
   const context = useMemo(() => ({
     email,
     setUserEmail,
@@ -34,6 +44,10 @@ function LoginProvider({ children }) {
     setBtnsCategory,
     recipesArray,
     setRecipesArray,
+    recipeData,
+    setRecipeData,
+    recommendationData,
+    setRecommendationData,
   }), [
     email,
     userPassword,
@@ -45,6 +59,8 @@ function LoginProvider({ children }) {
     recipes,
     btnsCategory,
     recipesArray,
+    recipeData,
+    recommendationData,
   ]);
 
   return (

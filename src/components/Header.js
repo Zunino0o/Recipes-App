@@ -33,7 +33,7 @@ function Header() {
       const pathTitle = Path[0].toUpperCase() + Path.substring(1);
       setTitle(pathTitle);
     }
-  }, []);
+  }, [Path]);
 
   return (
     <header className="header-container">

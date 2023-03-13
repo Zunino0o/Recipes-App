@@ -1,227 +1,198 @@
+import React, { useEffect, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import ReactPlayer from 'react-player';
+import '../styles/RecipeDetails.css';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import clipboardCopy from 'clipboard-copy';
-import { fetchDetails } from '../services/API';
-import RecipeDetailsContext from '../context/RecipeDetailsContext';
-import RecommendationCard from '../components/RecomendationCard';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import oneMeal from '../tests/helpers/MockOneMeal';
-import oneNoCategoryDrink from '../tests/helpers/MockOneDrinks';
+import LoginContext from '../context/LoginContext';
+import FavoriteButton from '../components/FavoriteButton';
+import ShareButton from '../components/ShareButton';
+import {
+  fetchMealsDetails,
+  fetchDrinksDetails,
+  fetchDrinks,
+  fetchMeals,
+} from '../services/fetchAPI';
+import fetchRecipeId from '../services/fetchRecipeId';
 
-function RecipeDetails({ history }) {
-  const path = history.location.pathname;
-  const typeMelsDrink = history.location.pathname.substring(1).includes('meals')
-    ? 'meals' : 'drinks';
-  const initialRecipe = typeMelsDrink === 'meals'
-    ? oneMeal.meals : oneNoCategoryDrink.drinks;
+function RecipeDetails(props) {
+  const { match: matchProps } = props;
+  const { params: { id: recipeId }, path: matchPath } = matchProps;
+  const url = window.location.href.replace('/in-progress', '');
+  const type = url.split('/')[3];
+  const IdRecipe = url.split('/')[4];
+  const [recipe, setRecipe] = useState('');
+  const history = useHistory();
+  const {
+    recipeData,
+    setRecipeData,
+    recommendationData,
+    setRecommendationData,
+  } = useContext(LoginContext);
 
-  const mealsIngredient = [
-    ['strIngredient1', 'penne rigate'],
-    ['strIngredient2', 'olive oil'],
-    ['strIngredient3', 'garlic'],
-    ['strIngredient4', 'chopped tomatoes'],
-    ['strIngredient5', 'red chile flakes'],
-    ['strIngredient6', 'italian seasoning'],
-    ['strIngredient7', 'basil'],
-    ['strIngredient8', 'Parmigiano-Reggiano'],
-  ];
-  const drinksIngredients = [
-    ['strIngredient1', 'Coffee'],
-    ['strIngredient2', 'Grain alcohol'],
-  ];
-  const initialIngredients = typeMelsDrink === 'meals'
-    ? mealsIngredient : drinksIngredients;
-  const [recipe, setRecipe] = useState(initialRecipe);
-  const [trueFalse, setTrue] = useState(false);
-  const [ingredients, setIngredients] = useState(initialIngredients);
-  const [measures, setMeasures] = useState([]);
-  const [isRecipeDone, setIsRecipeDone] = useState(false);
-  const [recipeId, setRecipeId] = useState('');
-  const [isInProgress, setIsInProgress] = useState(typeMelsDrink === 'meals');
-  const [isCliped, setIsCliped] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(false);
+  const MAX_RECOMMENDATIONS = 6;
+  const MEALS_PATH = '/meals/:id';
+  const DRINKS_PATH = '/drinks/:id';
 
-  const { setApiForType } = useContext(RecipeDetailsContext);
-  const UM = 1;
-  const SEIS = 6;
-  const SETE = 7;
-  const OITO = 8;
-  const type = path.substring(UM, SEIS);
+  const getTestID = (prefix, index) => `${index}-${prefix}`;
+
   useEffect(() => {
-    const getId = async () => {
-      if (type === 'meals') {
-        const idMeals = path.substring(SETE);
-        const responseMeals = await fetchDetails(idMeals, 'meals');
-        setRecipe(responseMeals);
-        const entries = Object.entries(responseMeals[0]);
-        const filteredIngredients = entries
-          .filter((e) => e[0].includes('strIngredient'))
-          .filter((e) => e[1] !== '' && e[1] !== null);
-        const filteredMeasures = entries
-          .filter((e) => e[0].includes('strMeasure'));
-        setIngredients(filteredIngredients);
-        setMeasures(filteredMeasures);
-        setTrue(true);
-        setRecipeId(responseMeals[0].idMeal);
-      }
-      if (type !== 'meals') {
-        const idDrinks = path.substring(OITO);
-        const response = await fetchDetails(idDrinks, 'drinks');
-        setRecipe(response);
-        const entries = Object.entries(response[0]);
-        const filteredIngredients = entries
-          .filter((e) => e[0].includes('strIngredient'))
-          .filter((e) => e[1] !== '' && e[1] !== null);
-        const filteredMeasures = entries
-          .filter((e) => e[0].includes('strMeasure'));
-        setIngredients(filteredIngredients);
-        setMeasures(filteredMeasures);
-        setTrue(true);
-        setRecipeId(response[0].idDrink);
+    const fetchRecipeDetails = async () => {
+      const response = matchPath === MEALS_PATH
+        ? await fetchMealsDetails(recipeId)
+        : await fetchDrinksDetails(recipeId);
+
+      const objectApi = response?.[matchPath.includes('meals') ? 'meals' : 'drinks']?.[0];
+
+      const ingredients = Object.entries(objectApi ?? {})
+        .filter(([key]) => key.startsWith('strIngredient') && objectApi[key])
+        .map(([, value]) => value);
+
+      const measures = Object.entries(objectApi ?? {})
+        .filter(([key]) => key.startsWith('strMeasure') && objectApi[key])
+        .map(([, value]) => value);
+
+      const category = objectApi?.strAlcoholic
+      || objectApi?.strCategory
+      || 'No category found';
+
+      const newRecipeData = {
+        thumb: objectApi?.[`str${matchPath.includes('meals') ? 'Meal' : 'Drink'}Thumb`],
+        title: objectApi?.[`str${matchPath.includes('meals') ? 'Meal' : 'Drink'}`],
+        category,
+        ingredient: ingredients,
+        measure: measures,
+        instruction: objectApi?.strInstructions,
+        video: objectApi?.strYoutube || objectApi?.strVideo || '',
+      };
+
+      setRecipeData(newRecipeData);
+    };
+    fetchRecipeDetails();
+  }, [recipeId, matchPath, setRecipeData]);
+
+  useEffect(() => {
+    const fetchRecommendation = async () => {
+      try {
+        let response;
+        if (matchPath === MEALS_PATH) {
+          response = await fetchDrinks('');
+          setRecommendationData(response.drinks);
+        } else if (matchPath === DRINKS_PATH) {
+          response = await fetchMeals('');
+          setRecommendationData(response.meals);
+        }
+      } catch (error) {
+        console.error(error);
       }
     };
-    const response = async () => {
-      const data = await fetchDetails(typeMelsDrink);
-      setApiForType(data);
-    };
-    response();
-    getId();
-  }, [history.location.pathname, path, setApiForType, type, typeMelsDrink]);
-  useEffect(() => {
-    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
-    const inProgressRecipes = !localStorage.getItem('inProgressRecipes')
-      ? { drinks: {}, meals: {} } : JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const isProgress = inProgressRecipes[typeMelsDrink];
-    const isDone = doneRecipes.some((e) => e.id === recipeId);
-    setIsInProgress(Object.keys(isProgress).includes(recipeId));
-    setIsRecipeDone(isDone);
-  }, [isInProgress, recipe, recipeId, typeMelsDrink]);
-  useEffect(() => {
-    const favoriteRecipes = localStorage.getItem('favoriteRecipes')
-      ? JSON.parse(localStorage.getItem('favoriteRecipes')) : [];
-    const isRecipeFavorited = favoriteRecipes.some((e) => e.id === recipeId);
-    setIsFavorited(isRecipeFavorited);
-  }, [recipeId]);
+    fetchRecommendation();
+  }, [matchPath, setRecommendationData]);
 
-  const handleShare = () => {
-    setIsCliped(true);
-    clipboardCopy(window.location.href);
-  };
-
-  const handleFavoriteBtn = () => {
-    const idRecipe = typeMelsDrink === 'meals' ? 'idMeal' : 'idDrink';
-    const favoriteRecipes = localStorage.getItem('favoriteRecipes')
-      ? JSON.parse(localStorage.getItem('favoriteRecipes')) : [];
-    const newFavoriteRecipes = [...favoriteRecipes, {
-      id: recipe[0][idRecipe],
-      type: typeMelsDrink === 'meals' ? 'meal' : 'drink',
-      nationality: recipe[0].strArea || '',
-      category: recipe[0].strCategory || '',
-      alcoholicOrNot: recipe[0].strAlcoholic || '',
-      name: recipe[0].strDrink || recipe[0].strMeal,
-      image: recipe[0].strDrinkThumb || recipe[0].strMealThumb,
-    }];
-    if (!isFavorited) {
-      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
-      setIsFavorited(true);
-    } else {
-      const favorited = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      const newFavorited = favorited.filter((e) => e.id !== recipeId);
-      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorited));
-      setIsFavorited(false);
+  useEffect(() => {
+    async function fetch() {
+      setRecipe(await fetchRecipeId(IdRecipe, type));
     }
-  };
+    fetch();
+  }, [IdRecipe, type]);
+
   return (
     <div>
-      <h1 data-testid="recipe-details">RecipeDetails</h1>
-      <button
-        type="button"
-        onClick={ handleShare }
-        data-testid="share-btn"
-      >
-        <img
-          src={ shareIcon }
-          alt="share-link"
+      <h1 data-testid="recipe-title">{ recipeData.title }</h1>
+      <div className="button-container">
+        <FavoriteButton recipe={ recipe[type] } />
+        <ShareButton
+          url={ url }
+          dataTestid="share-btn"
         />
-      </button>
-      {isCliped && 'Link copied!'}
-      <button
-        type="button"
-        onClick={ handleFavoriteBtn }
-      >
-        <img
-          data-testid="favorite-btn"
-          src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
-          alt="favorite-link"
-        />
-      </button>
-      {
-        trueFalse
-         && (
-           <div>
-             <img
-               data-testid="recipe-photo"
-               src={ recipe[0].strMealThumb || recipe[0].strDrinkThumb }
-               alt={ recipe[0].strMeal || recipe[0].strDrink }
-             />
-             <h2
-               data-testid="recipe-title"
-             >
-               { recipe[0].strMeal || recipe[0].strDrink }
-             </h2>
-             <p
-               data-testid="recipe-category"
-             >
-               {recipe[0].strAlcoholic || recipe[0].strCategory }
-             </p>
-             <text data-testid="instructions">{recipe[0].strInstructions}</text>
-             <ul>
-               {
-                 ingredients.map((i, index) => (
-                   <li
-                     key={ i[1] }
-                     data-testid={ `${index}-ingredient-name-and-measure` }
-                   >
-                     {`${i[1]} ${measures[index][1] || ''}`}
-                   </li>
-                 ))
-               }
-             </ul>
-             {type === 'meals' && (
-               <iframe
-                 title={ recipe[0].strMeal || recipe[0].strDrink }
-                 data-testid="video"
-                 width="420"
-                 height="315"
-                 src={ recipe[0].strYoutube }
-               />
-             )}
-           </div>
-         )
-      }
-      {
-        !isRecipeDone && (
-          <Link to={ `/${typeMelsDrink}/${recipeId}/in-progress` }>
-            <button
-              className="startRecipe"
-              type="button"
-              data-testid="start-recipe-btn"
-            >
-              {
-                isInProgress ? 'Continue Recipe' : 'Start Recipe'
-              }
-            </button>
-          </Link>
-        )
-      }
-      <div className="scrolling">
-        <RecommendationCard />
       </div>
+      <img
+        data-testid="recipe-photo"
+        src={ recipeData.thumb }
+        alt={ recipeData.thumb }
+        width="300"
+      />
+      <p data-testid="recipe-category">{ recipeData.category }</p>
+      <ul>
+        {recipeData.ingredient.map((ingredient, index) => (
+          <li
+            key={ index }
+            data-testid={ getTestID('ingredient-name-and-measure', index) }
+          >
+            {`${ingredient}-${recipeData.measure[index]}`}
+          </li>
+        ))}
+      </ul>
+      <p data-testid="instructions">
+        Modo de preparo:
+        { recipeData.instruction }
+      </p>
+      {recipeData.video && (
+        <div>
+          <ReactPlayer
+            url={ recipeData.video }
+            width="420"
+            height="345"
+            data-testid="video"
+          />
+        </div>
+      )}
+      {recommendationData && recommendationData.length > 0 && (
+        <div>
+          <h2>Recomendações:</h2>
+          <div className="recommendations-container">
+            {recommendationData.slice(0, MAX_RECOMMENDATIONS)
+              .map((recommendation, index) => (
+                <div
+                  key={ recommendation.idDrink || recommendation.idMeal }
+                  className="recommendation-card"
+                  data-testid={ `${index}-recommendation-card` }
+                >
+                  <img
+                    src={ matchPath === DRINKS_PATH
+                      ? recommendation.strMealThumb
+                      : recommendation.strDrinkThumb }
+                    alt={ matchPath === DRINKS_PATH
+                      ? recommendation.strMeal
+                      : recommendation.strDrink }
+                  />
+                  <p
+                    className="recommendation-title"
+                    data-testid={ `${index}-recommendation-title` }
+                  >
+                    { matchPath === DRINKS_PATH
+                      ? recommendation.strMeal
+                      : recommendation.strDrink }
+                  </p>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+      <button
+        type="button"
+        className="start-btn"
+        data-testid="start-recipe-btn"
+        onClick={ () => {
+          if (matchPath.includes('/meals')) {
+            history.push(`/meals/${recipeId}/in-progress`);
+          } else if (matchPath.includes('/drinks')) {
+            history.push(`/drinks/${recipeId}/in-progress`);
+          }
+        } }
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }
-RecipeDetails.propTypes = { history: PropTypes.shape.isRequired };
+
+RecipeDetails.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export default RecipeDetails;

@@ -57,3 +57,27 @@ export const getRecipesCategoriesFiltered = async (type, filter) => {
   const categories = type === 'meals' ? data.meals : data.drinks;
   return categories;
 };
+
+export const fetchMealsDetails = async (id) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchDrinksDetails = async (id) => {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchMeals = async () => {
+  const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const data = await response.json();
+  return data;
+};
+
+export const fetchDrinks = async () => {
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+  const data = await response.json();
+  return data;
+};
