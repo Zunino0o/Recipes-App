@@ -104,14 +104,18 @@ function Recipes() {
           : recipesFinal.map(
             (e, index) => index < number12 && (
               <Link key={ index } to={ `/drinks/${e.idDrink}` }>
-                <li key={ e.id } data-testid={ `${index}-recipe-card` }>
+                <div
+                  key={ e.id }
+                  data-testid={ `${index}-recipe-card` }
+                  className="recipe-item"
+                >
                   <img
                     alt={ e.strDrink }
                     data-testid={ `${index}-card-img` }
                     src={ e.strDrinkThumb }
                   />
                   <p data-testid={ `${index}-card-name` }>{e.strDrink}</p>
-                </li>
+                </div>
               </Link>
             ),
           )}

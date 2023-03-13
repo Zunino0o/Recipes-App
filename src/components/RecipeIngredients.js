@@ -60,7 +60,7 @@ function RecipeIngredients({ recipe }) {
 
   return (
     <div>
-      <ul className="ingredientsList">
+      <ul className="ingredients">
         {ingredients.map((ingredient, index) => (
           <li key={ index }>
             <div

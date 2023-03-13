@@ -4,14 +4,21 @@
   flex-direction: column;
   gap: 30px;
   justify-content: center;
-  padding: 40px;
+  padding: 10 px;
+}
+
+.category-btn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .category-btn button {
   background-color: transparent;
   border: none;
   color: rgb(90, 89, 89);
-  margin-right: 10px;
+  font-size: 16px;
+  margin-bottom: 8px;
   text-transform: uppercase;
 }
 
@@ -32,7 +39,7 @@
   border-radius: 10px;
   font-family: Epilogue , serif;
   letter-spacing: 2.5px;
-  width: 250px;
+  width: 200px;
 }
 
 .recipe-item p {
