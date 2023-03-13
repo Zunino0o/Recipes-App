@@ -25,7 +25,6 @@ function Meals() {
   return (
     <section>
       <Header pageTitle="Meals" />
-      {/* <Buttons /> */}
       <Recipes />
       <Footer />
     </section>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LoginContext from '../context/LoginContext';
 import { getRecipesCategoriesFiltered } from '../services/fetchAPI';
@@ -11,11 +11,13 @@ function Recipes() {
     setRecipesArray,
     recipesArray,
   } = useContext(LoginContext);
+
+  const [recipesFinal, setRecipesFinal] = useState([]);
+
   const number12 = 12;
   const number5 = 5;
   const [categoryFilter, setCategoryFilter] = useState('');
   const recipeType = type === 'meals' ? 'Meal' : 'Drink';
-
   const handleClick = async (e) => {
     // const { name } = target;
     setCategoryFilter(e);
@@ -38,11 +40,25 @@ function Recipes() {
     console.log(recipes);
   };
 
-  const recipesFinal = recipesArray.length === 0 ? recipes : recipesArray;
+  // console.log(recipesArray);
+  // const { length } = recipesArray;
+  // const recipesFinal = length === 0 ? recipes : recipesArray;
+  // const recipesFinalAlmost = recipesArray.length === 0 ? recipes : recipesArray;
+  // setRecipesFinal(recipesFinalAlmost);
+  const recipesFinalAlmost = recipesArray.length === 0 ? recipes : recipesArray;
+  // console.log(recipesFinal);
+
+  // console.log(length);
+  useEffect(() => {
+    setRecipesFinal(recipesFinalAlmost);
+    // console.log(recipesArray);
+  });
 
   return (
-    <div>
-      {btnsCategory.map((e, index) => (index < number5 && (
+    <div
+      data-testid="recipes"
+    >
+      {btnsCategory?.map((e, index) => (index < number5 && (
         <button
           type="button"
           key={ e.strCategory }
