@@ -4,9 +4,10 @@ import fetchRecipeId from '../services/fetchRecipeId';
 
 function MealsRecipesProgress() {
   const url = window.location.href.replace('/in-progress', '');
-  const type = url.split('/')[3];
+  const type = 'meals';
   const recipeID = url.split('/')[4];
   const [recipe, setRecipe] = useState('');
+
   // const teste = 52977;
 
   useEffect(() => {

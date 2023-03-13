@@ -12,6 +12,7 @@ function RecipeInProgress({ recipe, type, url }) {
   let image = '';
   let title = '';
 
+  console.log(type);
   if (type === 'meals') {
     [receita] = recipe.meals;
     title = receita.strMeal;

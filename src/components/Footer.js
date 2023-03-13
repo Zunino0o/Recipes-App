@@ -1,5 +1,5 @@
-import drink from '../images/drinkIcon.png';
-import meal from '../images/mealIcon.png';
+import drink from '../images/drinkIcon.svg';
+import meal from '../images/mealIcon.svg';
 import '../styles/Footer.css';
 
 function Footer() {
